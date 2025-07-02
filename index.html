@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Octavia Travel - Crafting Exclusive Experiences</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#d4af37">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Octavia Travel">
+</head>
+<body>
+    <!-- Audio Elements -->
+    <audio id="ambientAudio" loop preload="none">
+        <source src="data:audio/wav;base64,UklGRnwAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YVgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" type="audio/wav">
+    </audio>
+    <audio id="epicAudio" loop preload="none">
+        <source src="data:audio/wav;base64,UklGRnwAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YVgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA" type="audio/wav">
+    </audio>
+
+    <!-- Navigation Dots -->
+    <nav class="section-nav">
+        <div class="nav-dot active" data-section="0"></div>
+        <div class="nav-dot" data-section="1"></div>
+        <div class="nav-dot" data-section="2"></div>
+        <div class="nav-dot" data-section="3"></div>
+        <div class="nav-dot" data-section="4"></div>
+        <div class="nav-dot" data-section="5"></div>
+    </nav>
+
+    <!-- Section 1: Hero -->
+    <section class="section hero-section" id="section-0">
+        <div class="hero-background">
+            <img src="https://z-p3-scontent.fpnh18-2.fna.fbcdn.net/v/t39.30808-6/510964812_1293099672825219_3460378222241281020_n.jpg" alt="Luxury Experience" class="hero-bg-image">
+            <div class="hero-overlay"></div>
+        </div>
+        <div class="hero-content">
+            <div class="hero-logo">
+                <h1 class="brand-title">OCTAVIA</h1>
+                <p class="brand-subtitle">TRAVEL</p>
+            </div>
+            <div class="hero-tagline">
+                <h2 class="main-tagline">CRAFTING EXCLUSIVE</h2>
+                <h2 class="main-tagline">EXPERIENCES</h2>
+            </div>
+            <div class="hero-keywords">
+                <span class="keyword">PREMIUM</span>
+                <span class="keyword">EXCLUSIVE</span>
+                <span class="keyword">LIMITLESS</span>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- Section 2: About -->
+    <section class="section about-section" id="section-1">
+        <div class="section-content">
+            <h2 class="section-title">LUXURY REDEFINED</h2>
+            <div class="about-grid">
+                <div class="about-item">
+                    <div class="about-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3>FOR PRINCES & PRINCESSES</h3>
+                    <p>Tailored experiences for the most discerning clientele</p>
+                </div>
+                <div class="about-item">
+                    <div class="about-icon">
+                        <i class="fas fa-infinity"></i>
+                    </div>
+                    <h3>LIMITLESS POSSIBILITIES</h3>
+                    <p>From intimate gatherings to grand celebrations</p>
+                </div>
+                <div class="about-item">
+                    <div class="about-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3>EXCEPTIONAL QUALITY</h3>
+                    <p>Every detail crafted to perfection</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 3: Services -->
+    <section class="section services-section" id="section-2">
+        <div class="section-content">
+            <h2 class="section-title">EXCLUSIVE SERVICES</h2>
+            <div class="services-container">
+                <div class="service-category" data-category="yachting">
+                    <div class="category-header">
+                        <h3>LUXURY YACHTING</h3>
+                        <div class="category-icon">
+                            <i class="fas fa-ship"></i>
+                        </div>
+                    </div>
+                    <div class="service-cards">
+                        <div class="service-card" data-media="yacht-luxury">
+                            <img src="https://z-p3-scontent.fpnh18-3.fna.fbcdn.net/v/t39.30808-6/489629721_1224312743037246_1387263067139685184_n.jpg" alt="Luxury Yacht">
+                            <div class="card-content">
+                                <h4>Premium Luxury Yachts</h4>
+                                <p>Experience the ultimate in maritime luxury with our exclusive fleet</p>
+                                <div class="play-button">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-card" data-media="yacht-medium">
+                            <img src="https://z-p3-scontent.fpnh18-3.fna.fbcdn.net/v/t39.30808-6/488248822_1221313206670533_2619314602182333357_n.jpg" alt="Medium Yacht">
+                            <div class="card-content">
+                                <h4>Medium Yacht Charters</h4>
+                                <p>Perfect for intimate groups seeking luxury and comfort</p>
+                                <div class="play-button">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-card" data-media="yacht-small">
+                            <img src="https://z-p3-scontent.fpnh18-3.fna.fbcdn.net/v/t39.30808-6/467604767_18046340618488207_7080726273068802982_n.jpg" alt="Small Yacht">
+                            <div class="card-content">
+                                <h4>Intimate Yacht Experiences</h4>
+                                <p>Private yacht adventures for couples and small groups</p>
+                                <div class="play-button">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-category" data-category="watersports">
+                    <div class="category-header">
+                        <h3>WATERSPORTS & AQUAPARK</h3>
+                        <div class="category-icon">
+                            <i class="fas fa-water"></i>
+                        </div>
+                    </div>
+                    <div class="service-cards">
+                        <div class="service-card" data-media="jetski">
+                            <img src="https://z-p3-scontent.fpnh18-1.fna.fbcdn.net/v/t39.30808-6/494634917_1249237657211421_7381374683799088894_n.jpg" alt="Jetski">
+                            <div class="card-content">
+                                <h4>Jetski Adventures</h4>
+                                <p>High-speed thrills on crystal clear waters</p>
+                                <div class="play-button">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-card" data-media="waterpark">
+                            <img src="https://z-p3-scontent.fpnh18-1.fna.fbcdn.net/v/t39.30808-6/487505326_1221313613337159_2257670150634775544_n.jpg" alt="Water Park">
+                            <div class="card-content">
+                                <h4>Private Water Parks</h4>
+                                <p>Exclusive aquatic playgrounds for your group</p>
+                                <div class="play-button">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-card" data-media="parasailing">
+                            <img src="https://z-p3-scontent.fpnh18-3.fna.fbcdn.net/v/t39.30808-6/499758586_1263848012417052_6448428652605359676_n.jpg" alt="Parasailing">
+                            <div class="card-content">
+                                <h4>Parasailing Experiences</h4>
+                                <p>Soar above paradise with breathtaking views</p>
+                                <div class="play-button">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-category" data-category="resort">
+                    <div class="category-header">
+                        <h3>RESORT & SPA</h3>
+                        <div class="category-icon">
+                            <i class="fas fa-spa"></i>
+                        </div>
+                    </div>
+                    <div class="service-cards">
+                        <div class="service-card" data-media="resort-main">
+                            <img src="https://z-p3-scontent.fpnh18-3.fna.fbcdn.net/v/t39.30808-6/492067384_1241164261352094_2344252122183279432_n.jpg" alt="Luxury Resort">
+                            <div class="card-content">
+                                <h4>Luxury Resort Experiences</h4>
+                                <p>World-class amenities in paradise settings</p>
+                                <div class="play-button">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-card" data-media="private-island">
+                            <img src="https://z-p3-scontent.fpnh18-1.fna.fbcdn.net/v/t39.30808-6/487502651_1218257006976153_5494540344985065537_n.jpg" alt="Private Island">
+                            <div class="card-content">
+                                <h4>Private Island Retreats</h4>
+                                <p>Exclusive island getaways for ultimate privacy</p>
+                                <div class="play-button">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-card" data-media="sunset-chill">
+                            <img src="https://z-p3-scontent.fpnh18-2.fna.fbcdn.net/v/t39.30808-6/491718702_1232658802202640_1925492791760057618_n.jpg" alt="Sunset Resort">
+                            <div class="card-content">
+                                <h4>Romantic Escapes</h4>
+                                <p>Unforgettable sunset moments in luxury</p>
+                                <div class="play-button">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="service-category" data-category="adventures">
+                    <div class="category-header">
+                        <h3>TOURS & EXCURSIONS</h3>
+                        <div class="category-icon">
+                            <i class="fas fa-mountain"></i>
+                        </div>
+                    </div>
+                    <div class="service-cards">
+                        <div class="service-card" data-media="buggy-tour">
+                            <img src="https://z-p3-scontent.fpnh18-3.fna.fbcdn.net/v/t39.30808-6/487505570_1218256680309519_4388090686172555704_n.jpg" alt="Buggy Tour">
+                            <div class="card-content">
+                                <h4>Buggy Adventures</h4>
+                                <p>Off-road thrills through stunning landscapes</p>
+                                <div class="play-button">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-card" data-media="quad-tour">
+                            <img src="https://z-p3-scontent.fpnh18-3.fna.fbcdn.net/v/t39.30808-6/486513285_1213270814141439_566613281515582916_n.jpg" alt="Quad Tour">
+                            <div class="card-content">
+                                <h4>Quad Bike Expeditions</h4>
+                                <p>Explore hidden trails and scenic routes</p>
+                                <div class="play-button">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="service-card" data-media="jet-charter">
+                            <img src="https://z-p3-scontent.fpnh18-1.fna.fbcdn.net/v/t39.30808-6/492759344_1244558947679292_4367608314684127881_n.jpg" alt="Private Jet">
+                            <div class="card-content">
+                                <h4>Private Jet Charters</h4>
+                                <p>Luxury travel redefined with premium aircraft</p>
+                                <div class="play-button">
+                                    <i class="fas fa-play"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 4: Events -->
+    <section class="section events-section" id="section-3">
+        <div class="section-content">
+            <h2 class="section-title">EXCLUSIVE EVENTS</h2>
+            <div class="events-grid">
+                <div class="event-type">
+                    <div class="event-icon">
+                        <i class="fas fa-birthday-cake"></i>
+                    </div>
+                    <h3>Birthday Celebrations</h3>
+                    <p>Unforgettable milestone moments</p>
+                </div>
+                <div class="event-type">
+                    <div class="event-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3>Romantic Proposals</h3>
+                    <p>Picture-perfect moments of love</p>
+                </div>
+                <div class="event-type">
+                    <div class="event-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <h3>Corporate Events</h3>
+                    <p>Professional excellence in paradise</p>
+                </div>
+                <div class="event-type">
+                    <div class="event-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Family Adventures</h3>
+                    <p>Bonding experiences for all ages</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 5: Dream Crafter Form -->
+    <section class="section form-section" id="section-4">
+        <div class="section-content">
+            <h2 class="section-title">DREAM CRAFTER</h2>
+            <p class="form-subtitle">Tell us your vision, and we'll craft your perfect experience</p>
+            <form class="dream-form" id="dreamForm">
+                <div class="form-group">
+                    <textarea 
+                        placeholder="Describe your dream experience..."
+                        rows="6"
+                        required
+                    ></textarea>
+                </div>
+                <div class="form-buttons">
+                    <button type="button" class="btn-social" data-platform="telegram">
+                        <i class="fab fa-telegram"></i>
+                        Send via Telegram
+                    </button>
+                    <button type="button" class="btn-social" data-platform="whatsapp">
+                        <i class="fab fa-whatsapp"></i>
+                        Send via WhatsApp
+                    </button>
+                    <button type="button" class="btn-social" data-platform="email">
+                        <i class="fas fa-envelope"></i>
+                        Send via Email
+                    </button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Section 6: Contact -->
+    <section class="section contact-section" id="section-5">
+        <div class="section-content">
+            <h2 class="section-title">24/7 CONCIERGE</h2>
+            <p class="contact-subtitle">Your luxury travel concierge, available anytime, anywhere</p>
+            
+            <div class="quick-contact">
+                <input 
+                    type="text" 
+                    placeholder="Ask anything... (Any language)"
+                    class="quick-question"
+                    id="quickQuestion"
+                >
+                <button class="send-btn" id="sendQuestion">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+
+            <div class="social-links">
+                <a href="tel:+1234567890" class="social-btn">
+                    <i class="fas fa-phone"></i>
+                </a>
+                <a href="https://t.me/octaviatravel" class="social-btn">
+                    <i class="fab fa-telegram"></i>
+                </a>
+                <a href="https://wa.me/1234567890" class="social-btn">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="https://facebook.com/octaviatravel" class="social-btn">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a href="https://instagram.com/octaviatravel" class="social-btn">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://tiktok.com/@octaviatravel" class="social-btn">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+            </div>
+
+            <div class="contact-footer">
+                <p>OCTAVIA TRAVEL</p>
+                <p>Crafting Exclusive Experiences</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Media Player Modal -->
+    <div class="media-player" id="mediaPlayer">
+        <div class="player-content">
+            <div class="player-header">
+                <button class="close-player" id="closePlayer">
+                    <i class="fas fa-times"></i>
+                </button>
+                <button class="fullscreen-toggle" id="fullscreenToggle">
+                    <i class="fas fa-expand"></i>
+                </button>
+            </div>
+            <div class="media-container">
+                <div class="media-slides" id="mediaSlides"></div>
+            </div>
+            <div class="player-controls">
+                <button class="control-btn" id="prevMedia">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+                <button class="control-btn play-pause" id="playPause">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button class="control-btn" id="nextMedia">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+                <div class="volume-control">
+                    <button class="control-btn" id="volumeToggle">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                    <input type="range" class="volume-slider" id="volumeSlider" min="0" max="100" value="50">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
