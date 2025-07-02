@@ -1,0 +1,28 @@
+{
+    "name": "Octavia Travel - Crafting Exclusive Experiences",
+    "short_name": "Octavia Travel",
+    "description": "Premium luxury travel experiences, exclusive yacht charters, private resorts, and bespoke adventures for discerning clientele.",
+    "start_url": "/",
+    "display": "fullscreen",
+    "background_color": "#0a0a0a",
+    "theme_color": "#d4af37",
+    "orientation": "portrait",
+    "scope": "/",
+    "icons": [
+        {
+            "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiBmaWxsPSIjMGEwYTBhIi8+CjxyZWN0IHg9IjI0IiB5PSIyNCIgd2lkdGg9IjE0NCIgaGVpZ2h0PSIxNDQiIHJ4PSIyMCIgZmlsbD0idXJsKCNncmFkaWVudCkiLz4KPHN2ZyB4PSI1NiIgeT0iNTYiIHdpZHRoPSI4MCIgaGVpZ2h0PSI4MCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIj4KPHA/aCBkPSJNMjEgMTZWOGwtOC01LjVMNSA4djhsOCA1LjUgOC01LjV6IiBzdHJva2U9IiMwYTBhMGEiIHN0cm9rZS13aWR0aD0iMiIvPgo8L3N2Zz4KPHN2ZyB4PSI3MiIgeT0iNzIiIHdpZHRoPSI0OCIgaGVpZ2h0PSI0OCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIj4KPHA/aCBkPSJNMTIgMmwtNSA5IDUgOSA1LTktNS05eiIgZmlsbD0iIzBhMGEwYSIvPgo8L3N2Zz4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgo8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojZDRhZjM3Ii8+CjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2ZmZDcwMCIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPg==",
+            "sizes": "192x192",
+            "type": "image/svg+xml",
+            "purpose": "any"
+        },
+        {
+            "src": "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDUxMiA1MTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI1MTIiIGhlaWdodD0iNTEyIiBmaWxsPSIjMGEwYTBhIi8+CjxyZWN0IHg9IjY0IiB5PSI2NCIgd2lkdGg9IjM4NCIgaGVpZ2h0PSIzODQiIHJ4PSI0MCIgZmlsbD0idXJsKCNncmFkaWVudCkiLz4KPHN2ZyB4PSIxNDQiIHk9IjE0NCIgd2lkdGg9IjIyNCIgaGVpZ2h0PSIyMjQiIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSI+CjxwYXRoIGQ9Ik0yMSAxNlY4bC04LTUuNUw1IDh2OGw4IDUuNSA4LTUuNXoiIHN0cm9rZT0iIzBhMGEwYSIgc3Ryb2tlLXdpZHRoPSIyIi8+Cjwvc3ZnPgo8c3ZnIHg9IjE5MiIgeT0iMTkyIiB3aWR0aD0iMTI4IiBoZWlnaHQ9IjEyOCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIj4KPHA/aCBkPSJNMTIgMmwtNSA5IDUgOSA1LTktNS05eiIgZmlsbD0iIzBhMGEwYSIvPgo8L3N2Zz4KPGRlZnM+CjxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgo8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojZDRhZjM3Ii8+CjxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6I2ZmZDcwMCIvPgo8L2xpbmVhckdyYWRpZW50Pgo8L2RlZnM+Cjwvc3ZnPg==",
+            "sizes": "512x512",
+            "type": "image/svg+xml",
+            "purpose": "any"
+        }
+    ],
+    "categories": ["travel", "lifestyle", "business"],
+    "lang": "en",
+    "dir": "ltr"
+}
