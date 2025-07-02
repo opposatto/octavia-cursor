@@ -1,646 +1,484 @@
-// Octavia Travel - Premium Mobile Web Application
-// Scroll-driven animations and luxury experience
+// Octavia Travel - GSAP Scroll-Driven Animations
+// Register GSAP plugins
+gsap.registerPlugin(ScrollTrigger);
 
-class OctaviaExperience {
+class OctaviaApp {
     constructor() {
         this.currentSection = 0;
-        this.isScrolling = false;
-        this.touchStartY = 0;
-        this.touchEndY = 0;
-        this.scrollThreshold = 50;
-        this.mediaData = this.initializeMediaData();
+        this.totalSections = 6;
         this.ambientAudio = document.getElementById('ambientAudio');
-        this.epicAudio = document.getElementById('epicAudio');
-        this.currentMediaSet = [];
-        this.currentMediaIndex = 0;
-        this.isMediaPlaying = false;
+        this.audioControl = document.getElementById('audioControl');
+        this.isAudioPlaying = false;
         
         this.init();
     }
 
     init() {
+        this.setupAudio();
+        this.setupNavigation();
+        this.setupScrollAnimations();
+        this.setupHeroAnimations();
+        this.setupYachtAnimations();
         this.setupEventListeners();
-        this.initializeAudio();
-        this.setupScrollObserver();
-        this.setupMediaPlayer();
-        this.createAudioVisualizer();
-        this.animateOnLoad();
     }
 
-    initializeMediaData() {
-        return {
-            'yacht-luxury': [
-                'https://z-p3-scontent.fpnh18-3.fna.fbcdn.net/v/t39.30808-6/489629721_1224312743037246_1387263067139685184_n.jpg',
-                'https://z-p3-scontent.fpnh18-3.fna.fbcdn.net/v/t39.30808-6/488247612_1218257000309487_634314993753419862_n.jpg',
-                'https://z-p3-scontent.fpnh18-3.fna.fbcdn.net/v/t39.30808-6/467308518_18046340471488207_8857665241303816876_n.jpg'
-            ],
-            'yacht-medium': [
-                'https://z-p3-scontent.fpnh18-3.fna.fbcdn.net/v/t39.30808-6/488248822_1221313206670533_2619314602182333357_n.jpg',
-                'https://z-p3-scontent.fpnh18-1.fna.fbcdn.net/v/t39.30808-6/467654016_18046340633488207_525707459581305388_n.jpg'
-            ],
-            'yacht-small': [
-                'https://z-p3-scontent.fpnh18-3.fna.fbcdn.net/v/t39.30808-6/467604767_18046340618488207_7080726273068802982_n.jpg',
-                'https://z-p3-scontent.fpnh18-1.fna.fbcdn.net/v/t39.30808-6/467335827_18046340648488207_7908444182024984275_n.jpg',
-                'https://z-p3-scontent.fpnh18-3.fna.fbcdn.net/v/t39.30808-6/492577301_1240136838121503_7953086626805307033_n.jpg'
-            ],
-            'jetski': [
-                'https://z-p3-scontent.fpnh18-1.fna.fbcdn.net/v/t39.30808-6/494634917_1249237657211421_7381374683799088894_n.jpg',
-                'https://z-p3-scontent.fpnh18-3.fna.fbcdn.net/v/t39.30808-6/491924489_1240584288076758_5089490372483173308_n.jpg'
-            ],
-            'waterpark': [
-                'https://z-p3-scontent.fpnh18-1.fna.fbcdn.net/v/t39.30808-6/487505326_1221313613337159_2257670150634775544_n.jpg',
-                'https://z-p3-scontent.fpnh18-1.fna.fbcdn.net/v/t39.30808-6/499928433_1263850209083499_8007283800379249658_n.jpg',
-                'https://z-p3-scontent.fpnh18-1.fna.fbcdn.net/v/t39.30808-6/490238009_1227213116080542_5971018363675880019_n.jpg'
-            ],
-            'parasailing': [
-                'https://z-p3-scontent.fpnh18-3.fna.fbcdn.net/v/t39.30808-6/499758586_1263848012417052_6448428652605359676_n.jpg',
-                'https://z-p3-scontent.fpnh18-3.fna.fbcdn.net/v/t39.30808-6/487356079_1213270694141451_3714176188515191504_n.jpg'
-            ],
-            'resort-main': [
-                'https://z-p3-scontent.fpnh18-3.fna.fbcdn.net/v/t39.30808-6/492067384_1241164261352094_2344252122183279432_n.jpg'
-            ],
-            'private-island': [
-                'https://z-p3-scontent.fpnh18-1.fna.fbcdn.net/v/t39.30808-6/487502651_1218257006976153_5494540344985065537_n.jpg'
-            ],
-            'sunset-chill': [
-                'https://z-p3-scontent.fpnh18-2.fna.fbcdn.net/v/t39.30808-6/491718702_1232658802202640_1925492791760057618_n.jpg'
-            ],
-            'buggy-tour': [
-                'https://z-p3-scontent.fpnh18-3.fna.fbcdn.net/v/t39.30808-6/487505570_1218256680309519_4388090686172555704_n.jpg'
-            ],
-            'quad-tour': [
-                'https://z-p3-scontent.fpnh18-3.fna.fbcdn.net/v/t39.30808-6/486513285_1213270814141439_566613281515582916_n.jpg'
-            ],
-            'jet-charter': [
-                'https://z-p3-scontent.fpnh18-1.fna.fbcdn.net/v/t39.30808-6/492759344_1244558947679292_4367608314684127881_n.jpg',
-                'https://z-p3-scontent.fpnh18-3.fna.fbcdn.net/v/t39.30808-6/493908519_1244689227666264_4732524610416889587_n.jpg'
-            ]
-        };
-    }
-
-    setupEventListeners() {
-        // Touch and scroll events
-        document.addEventListener('touchstart', this.handleTouchStart.bind(this), { passive: false });
-        document.addEventListener('touchend', this.handleTouchEnd.bind(this), { passive: false });
-        document.addEventListener('wheel', this.handleWheel.bind(this), { passive: false });
-        
-        // Navigation dots
-        document.querySelectorAll('.nav-dot').forEach((dot, index) => {
-            dot.addEventListener('click', () => this.goToSection(index));
-        });
-
-        // Service cards
-        document.querySelectorAll('.service-card').forEach(card => {
-            card.addEventListener('click', this.handleServiceCardClick.bind(this));
-        });
-
-        // Media player controls
-        document.getElementById('closePlayer').addEventListener('click', this.closeMediaPlayer.bind(this));
-        document.getElementById('fullscreenToggle').addEventListener('click', this.toggleFullscreen.bind(this));
-        document.getElementById('playPause').addEventListener('click', this.toggleMediaPlayback.bind(this));
-        document.getElementById('prevMedia').addEventListener('click', this.previousMedia.bind(this));
-        document.getElementById('nextMedia').addEventListener('click', this.nextMedia.bind(this));
-        document.getElementById('volumeToggle').addEventListener('click', this.toggleVolume.bind(this));
-        document.getElementById('volumeSlider').addEventListener('input', this.handleVolumeChange.bind(this));
-
-        // Form and contact interactions
-        document.querySelectorAll('.btn-social').forEach(btn => {
-            btn.addEventListener('click', this.handleSocialShare.bind(this));
-        });
-
-        document.getElementById('sendQuestion').addEventListener('click', this.handleQuickQuestion.bind(this));
-
-        // Keyboard navigation
-        document.addEventListener('keydown', this.handleKeydown.bind(this));
-
-        // Resize handler
-        window.addEventListener('resize', this.handleResize.bind(this));
-    }
-
-    setupScrollObserver() {
-        const options = {
-            threshold: 0.5,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        this.observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const sectionIndex = parseInt(entry.target.id.split('-')[1]);
-                    this.updateCurrentSection(sectionIndex);
-                    this.triggerSectionAnimations(entry.target);
-                }
-            });
-        }, options);
-
-        document.querySelectorAll('.section').forEach(section => {
-            this.observer.observe(section);
-        });
-    }
-
-    initializeAudio() {
-        // Initialize ambient audio with low volume
+    setupAudio() {
+        // Set initial audio properties
         this.ambientAudio.volume = 0.3;
-        this.epicAudio.volume = 0.7;
-        
-        // Auto-play ambient audio (with user gesture requirement)
+        this.ambientAudio.loop = true;
+
+        // Audio control click handler
+        this.audioControl.addEventListener('click', () => {
+            this.toggleAudio();
+        });
+
+        // Auto-play on first user interaction
         document.addEventListener('click', () => {
-            if (this.ambientAudio.paused) {
-                this.ambientAudio.play().catch(() => {
-                    console.log('Audio autoplay prevented by browser');
-                });
+            if (!this.isAudioPlaying) {
+                this.playAudio();
             }
         }, { once: true });
     }
 
-    createAudioVisualizer() {
-        const visualizer = document.createElement('div');
-        visualizer.className = 'audio-visualizer';
-        visualizer.innerHTML = '<i class="fas fa-music"></i>';
-        visualizer.addEventListener('click', this.toggleAmbientAudio.bind(this));
-        document.body.appendChild(visualizer);
+    toggleAudio() {
+        if (this.isAudioPlaying) {
+            this.pauseAudio();
+        } else {
+            this.playAudio();
+        }
     }
 
-    handleTouchStart(e) {
-        this.touchStartY = e.touches[0].clientY;
+    playAudio() {
+        this.ambientAudio.play().then(() => {
+            this.isAudioPlaying = true;
+            this.audioControl.style.animation = 'pulse 2s infinite';
+        }).catch((error) => {
+            console.log('Audio play failed:', error);
+        });
     }
 
-    handleTouchEnd(e) {
-        if (this.isScrolling) return;
+    pauseAudio() {
+        this.ambientAudio.pause();
+        this.isAudioPlaying = false;
+        this.audioControl.style.animation = 'none';
+    }
+
+    setupNavigation() {
+        const dots = document.querySelectorAll('.dot');
         
-        this.touchEndY = e.changedTouches[0].clientY;
-        const deltaY = this.touchStartY - this.touchEndY;
-        
-        if (Math.abs(deltaY) > this.scrollThreshold) {
-            e.preventDefault();
-            if (deltaY > 0 && this.currentSection < 5) {
-                this.nextSection();
-            } else if (deltaY < 0 && this.currentSection > 0) {
-                this.previousSection();
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                this.goToSection(index);
+            });
+        });
+
+        // Update active dot based on scroll position
+        ScrollTrigger.create({
+            trigger: ".main-container",
+            start: "top top",
+            end: "bottom bottom",
+            onUpdate: (self) => {
+                const progress = self.progress;
+                const sectionIndex = Math.round(progress * (this.totalSections - 1));
+                this.updateActiveDot(sectionIndex);
             }
-        }
+        });
     }
 
-    handleWheel(e) {
-        if (this.isScrolling) return;
-        
-        e.preventDefault();
-        
-        if (e.deltaY > 0 && this.currentSection < 5) {
-            this.nextSection();
-        } else if (e.deltaY < 0 && this.currentSection > 0) {
-            this.previousSection();
-        }
-    }
-
-    handleKeydown(e) {
-        switch(e.key) {
-            case 'ArrowDown':
-            case ' ':
-                e.preventDefault();
-                if (this.currentSection < 5) this.nextSection();
-                break;
-            case 'ArrowUp':
-                e.preventDefault();
-                if (this.currentSection > 0) this.previousSection();
-                break;
-            case 'Escape':
-                this.closeMediaPlayer();
-                break;
-            case 'ArrowLeft':
-                if (document.getElementById('mediaPlayer').classList.contains('active')) {
-                    this.previousMedia();
-                }
-                break;
-            case 'ArrowRight':
-                if (document.getElementById('mediaPlayer').classList.contains('active')) {
-                    this.nextMedia();
-                }
-                break;
-        }
-    }
-
-    nextSection() {
-        if (this.currentSection < 5) {
-            this.goToSection(this.currentSection + 1);
-        }
-    }
-
-    previousSection() {
-        if (this.currentSection > 0) {
-            this.goToSection(this.currentSection - 1);
-        }
+    updateActiveDot(index) {
+        const dots = document.querySelectorAll('.dot');
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === index);
+        });
+        this.currentSection = index;
     }
 
     goToSection(index) {
-        if (this.isScrolling || index === this.currentSection) return;
-        
-        this.isScrolling = true;
-        this.currentSection = index;
-        
-        const targetSection = document.getElementById(`section-${index}`);
-        targetSection.scrollIntoView({ 
-            behavior: 'smooth',
-            block: 'start'
-        });
-        
-        this.updateNavigation();
-        
-        setTimeout(() => {
-            this.isScrolling = false;
-        }, 1000);
-    }
-
-    updateCurrentSection(index) {
-        this.currentSection = index;
-        this.updateNavigation();
-    }
-
-    updateNavigation() {
-        document.querySelectorAll('.nav-dot').forEach((dot, index) => {
-            dot.classList.toggle('active', index === this.currentSection);
-        });
-    }
-
-    triggerSectionAnimations(section) {
-        const elements = section.querySelectorAll('.section-title, .about-item, .service-card, .event-type');
-        
-        elements.forEach((element, index) => {
-            setTimeout(() => {
-                element.style.animation = `slideUp 0.8s ease-out forwards`;
-                element.style.opacity = '1';
-            }, index * 150);
-        });
-    }
-
-    animateOnLoad() {
-        const heroElements = document.querySelectorAll('.hero-content > *');
-        heroElements.forEach((element, index) => {
-            setTimeout(() => {
-                element.style.opacity = '1';
-                element.style.transform = 'translateY(0)';
-            }, index * 300 + 500);
-        });
-    }
-
-    handleServiceCardClick(e) {
-        const card = e.currentTarget;
-        const mediaKey = card.dataset.media;
-        
-        if (mediaKey && this.mediaData[mediaKey]) {
-            this.openMediaPlayer(mediaKey);
+        const targetSection = document.querySelector(`[data-section="${index}"]`);
+        if (targetSection) {
+            targetSection.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
         }
     }
 
-    setupMediaPlayer() {
-        const mediaPlayer = document.getElementById('mediaPlayer');
+    setupScrollAnimations() {
+        // Smooth scrolling with momentum
+        gsap.to("body", {
+            scrollBehavior: "smooth",
+            duration: 0.1
+        });
+
+        // Section snap scrolling
+        const sections = gsap.utils.toArray('.section');
         
-        // Handle tap navigation areas
-        const mediaContainer = document.querySelector('.media-container');
-        mediaContainer.addEventListener('click', (e) => {
-            const rect = mediaContainer.getBoundingClientRect();
-            const clickX = e.clientX - rect.left;
-            const containerWidth = rect.width;
+        sections.forEach((section, index) => {
+            ScrollTrigger.create({
+                trigger: section,
+                start: "top center",
+                end: "bottom center",
+                onEnter: () => this.updateActiveDot(index),
+                onEnterBack: () => this.updateActiveDot(index)
+            });
+        });
+    }
+
+    setupHeroAnimations() {
+        const heroTimeline = gsap.timeline();
+
+        // Initial hero content animation
+        heroTimeline
+            .from('.hero-logo', {
+                opacity: 0,
+                y: 50,
+                duration: 1,
+                ease: "power3.out"
+            })
+            .from('.hero-tagline', {
+                opacity: 0,
+                y: 30,
+                duration: 0.8,
+                ease: "power2.out"
+            }, "-=0.5")
+            .from('.hero-description', {
+                opacity: 0,
+                y: 20,
+                duration: 0.6,
+                ease: "power2.out"
+            }, "-=0.4")
+            .from('.scroll-indicator', {
+                opacity: 0,
+                y: 20,
+                duration: 0.5,
+                ease: "power2.out"
+            }, "-=0.3");
+
+        // Parallax effect for hero video
+        gsap.to('.hero-video', {
+            yPercent: -50,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".hero-section",
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+
+        // Hero content parallax
+        gsap.to('.hero-content', {
+            yPercent: -30,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".hero-section",
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+    }
+
+    setupYachtAnimations() {
+        // Section header animation
+        gsap.from('.yacht-section .section-header', {
+            opacity: 0,
+            y: 50,
+            duration: 1,
+            scrollTrigger: {
+                trigger: ".yacht-section",
+                start: "top 70%",
+                end: "top 30%",
+                scrub: 1
+            }
+        });
+
+        // Cards staggered animation
+        gsap.from('.yacht-section .service-card', {
+            opacity: 0,
+            y: 50,
+            scale: 0.9,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: ".cards-container",
+                start: "top 80%",
+                end: "top 40%",
+                scrub: 1
+            }
+        });
+
+        // Floating elements parallax
+        gsap.to('.float-1', {
+            y: -30,
+            x: 20,
+            rotation: 180,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".yacht-section",
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+
+        gsap.to('.float-2', {
+            y: -40,
+            x: -15,
+            rotation: -180,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".yacht-section",
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+
+        gsap.to('.float-3', {
+            y: -35,
+            x: 25,
+            rotation: 90,
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".yacht-section",
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+
+        // Cards hover parallax effect
+        const cards = document.querySelectorAll('.service-card');
+        cards.forEach(card => {
+            const cardBg = card.querySelector('.card-bg img');
             
-            if (clickX < containerWidth / 2) {
-                this.previousMedia();
-            } else {
-                this.nextMedia();
+            card.addEventListener('mouseenter', () => {
+                gsap.to(cardBg, {
+                    scale: 1.1,
+                    duration: 0.4,
+                    ease: "power2.out"
+                });
+            });
+
+            card.addEventListener('mouseleave', () => {
+                gsap.to(cardBg, {
+                    scale: 1,
+                    duration: 0.4,
+                    ease: "power2.out"
+                });
+            });
+
+            // Scroll-driven card animation
+            ScrollTrigger.create({
+                trigger: card,
+                start: "top bottom",
+                end: "bottom top",
+                onUpdate: (self) => {
+                    const progress = self.progress;
+                    gsap.to(card, {
+                        y: -progress * 20,
+                        rotationY: progress * 5,
+                        duration: 0.1,
+                        overwrite: true
+                    });
+                }
+            });
+        });
+    }
+
+    setupEventListeners() {
+        // Handle keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            switch(e.key) {
+                case 'ArrowDown':
+                case ' ':
+                    e.preventDefault();
+                    if (this.currentSection < this.totalSections - 1) {
+                        this.goToSection(this.currentSection + 1);
+                    }
+                    break;
+                case 'ArrowUp':
+                    e.preventDefault();
+                    if (this.currentSection > 0) {
+                        this.goToSection(this.currentSection - 1);
+                    }
+                    break;
             }
         });
-    }
 
-    openMediaPlayer(mediaKey) {
-        this.currentMediaSet = this.mediaData[mediaKey];
-        this.currentMediaIndex = 0;
-        
-        const mediaPlayer = document.getElementById('mediaPlayer');
-        const mediaSlidesContainer = document.getElementById('mediaSlides');
-        
-        // Clear existing slides
-        mediaSlidesContainer.innerHTML = '';
-        
-        // Create slides for each media item
-        this.currentMediaSet.forEach((mediaUrl, index) => {
-            const slide = document.createElement('div');
-            slide.className = `media-slide ${index === 0 ? 'active' : ''}`;
-            slide.innerHTML = `<img src="${mediaUrl}" alt="Media ${index + 1}">`;
-            mediaSlidesContainer.appendChild(slide);
-        });
-        
-        mediaPlayer.classList.add('active');
-        document.body.style.overflow = 'hidden';
-        
-        // Switch to epic audio for media viewing
-        this.ambientAudio.pause();
-        this.epicAudio.play().catch(() => {
-            console.log('Epic audio play prevented');
-        });
-        
-        // Auto-play slideshow
-        this.startMediaSlideshow();
-    }
+        // Handle touch gestures for mobile
+        let touchStartY = 0;
+        let touchEndY = 0;
 
-    closeMediaPlayer() {
-        const mediaPlayer = document.getElementById('mediaPlayer');
-        mediaPlayer.classList.remove('active');
-        document.body.style.overflow = '';
-        
-        // Stop slideshow
-        this.stopMediaSlideshow();
-        
-        // Switch back to ambient audio
-        this.epicAudio.pause();
-        this.ambientAudio.play().catch(() => {
-            console.log('Ambient audio play prevented');
+        document.addEventListener('touchstart', (e) => {
+            touchStartY = e.changedTouches[0].screenY;
         });
-    }
 
-    startMediaSlideshow() {
-        this.isMediaPlaying = true;
-        this.updatePlayPauseButton();
-        
-        this.slideshowInterval = setInterval(() => {
-            if (this.isMediaPlaying) {
-                this.nextMedia();
+        document.addEventListener('touchend', (e) => {
+            touchEndY = e.changedTouches[0].screenY;
+            this.handleSwipe();
+        });
+
+        const handleSwipe = () => {
+            const swipeThreshold = 50;
+            const deltaY = touchStartY - touchEndY;
+
+            if (Math.abs(deltaY) > swipeThreshold) {
+                if (deltaY > 0 && this.currentSection < this.totalSections - 1) {
+                    // Swipe up - next section
+                    this.goToSection(this.currentSection + 1);
+                } else if (deltaY < 0 && this.currentSection > 0) {
+                    // Swipe down - previous section
+                    this.goToSection(this.currentSection - 1);
+                }
             }
-        }, 4000); // 4 seconds per slide
-    }
-
-    stopMediaSlideshow() {
-        this.isMediaPlaying = false;
-        this.updatePlayPauseButton();
-        
-        if (this.slideshowInterval) {
-            clearInterval(this.slideshowInterval);
-        }
-    }
-
-    toggleMediaPlayback() {
-        if (this.isMediaPlaying) {
-            this.stopMediaSlideshow();
-        } else {
-            this.startMediaSlideshow();
-        }
-    }
-
-    updatePlayPauseButton() {
-        const playPauseBtn = document.getElementById('playPause');
-        const icon = playPauseBtn.querySelector('i');
-        
-        if (this.isMediaPlaying) {
-            icon.className = 'fas fa-pause';
-        } else {
-            icon.className = 'fas fa-play';
-        }
-    }
-
-    nextMedia() {
-        if (this.currentMediaSet.length <= 1) return;
-        
-        const currentSlide = document.querySelector('.media-slide.active');
-        currentSlide.classList.remove('active');
-        
-        this.currentMediaIndex = (this.currentMediaIndex + 1) % this.currentMediaSet.length;
-        
-        const nextSlide = document.querySelectorAll('.media-slide')[this.currentMediaIndex];
-        nextSlide.classList.add('active');
-    }
-
-    previousMedia() {
-        if (this.currentMediaSet.length <= 1) return;
-        
-        const currentSlide = document.querySelector('.media-slide.active');
-        currentSlide.classList.remove('active');
-        
-        this.currentMediaIndex = this.currentMediaIndex === 0 
-            ? this.currentMediaSet.length - 1 
-            : this.currentMediaIndex - 1;
-        
-        const prevSlide = document.querySelectorAll('.media-slide')[this.currentMediaIndex];
-        prevSlide.classList.add('active');
-    }
-
-    toggleFullscreen() {
-        if (!document.fullscreenElement) {
-            document.documentElement.requestFullscreen().catch(() => {
-                console.log('Fullscreen request failed');
-            });
-        } else {
-            document.exitFullscreen();
-        }
-    }
-
-    toggleVolume() {
-        const volumeBtn = document.getElementById('volumeToggle');
-        const volumeSlider = document.getElementById('volumeSlider');
-        const icon = volumeBtn.querySelector('i');
-        
-        if (this.epicAudio.volume > 0) {
-            this.epicAudio.volume = 0;
-            volumeSlider.value = 0;
-            icon.className = 'fas fa-volume-mute';
-        } else {
-            this.epicAudio.volume = 0.7;
-            volumeSlider.value = 70;
-            icon.className = 'fas fa-volume-up';
-        }
-    }
-
-    handleVolumeChange(e) {
-        const volume = e.target.value / 100;
-        this.epicAudio.volume = volume;
-        
-        const volumeBtn = document.getElementById('volumeToggle');
-        const icon = volumeBtn.querySelector('i');
-        
-        if (volume === 0) {
-            icon.className = 'fas fa-volume-mute';
-        } else if (volume < 0.5) {
-            icon.className = 'fas fa-volume-down';
-        } else {
-            icon.className = 'fas fa-volume-up';
-        }
-    }
-
-    toggleAmbientAudio() {
-        const visualizer = document.querySelector('.audio-visualizer');
-        const icon = visualizer.querySelector('i');
-        
-        if (this.ambientAudio.paused) {
-            this.ambientAudio.play().catch(() => {
-                console.log('Audio play prevented');
-            });
-            icon.className = 'fas fa-music';
-            visualizer.style.animation = 'pulse 2s infinite';
-        } else {
-            this.ambientAudio.pause();
-            icon.className = 'fas fa-volume-mute';
-            visualizer.style.animation = 'none';
-        }
-    }
-
-    handleSocialShare(e) {
-        const platform = e.currentTarget.dataset.platform;
-        const formTextarea = document.querySelector('.dream-form textarea');
-        const message = formTextarea.value || 'I\'m interested in your exclusive travel experiences';
-        
-        const encodedMessage = encodeURIComponent(message);
-        
-        let url = '';
-        switch(platform) {
-            case 'telegram':
-                url = `https://t.me/octaviatravel?text=${encodedMessage}`;
-                break;
-            case 'whatsapp':
-                url = `https://wa.me/1234567890?text=${encodedMessage}`;
-                break;
-            case 'email':
-                url = `mailto:contact@octaviatravel.com?subject=Dream Experience Request&body=${encodedMessage}`;
-                break;
-        }
-        
-        if (url) {
-            window.open(url, '_blank');
-        }
-    }
-
-    handleQuickQuestion() {
-        const questionInput = document.getElementById('quickQuestion');
-        const question = questionInput.value.trim();
-        
-        if (question) {
-            const encodedQuestion = encodeURIComponent(`Quick question: ${question}`);
-            const whatsappUrl = `https://wa.me/1234567890?text=${encodedQuestion}`;
-            window.open(whatsappUrl, '_blank');
-            questionInput.value = '';
-        }
-    }
-
-    handleResize() {
-        // Recalculate positions and dimensions on resize
-        if (window.innerWidth !== this.lastWidth) {
-            this.lastWidth = window.innerWidth;
-            // Force section alignment
-            setTimeout(() => {
-                this.goToSection(this.currentSection);
-            }, 100);
-        }
-    }
-}
-
-// Enhanced scroll-driven animations using Intersection Observer
-class ScrollAnimations {
-    constructor() {
-        this.animatedElements = new Set();
-        this.setupAnimationObserver();
-    }
-
-    setupAnimationObserver() {
-        const options = {
-            threshold: 0.2,
-            rootMargin: '0px 0px -100px 0px'
         };
 
-        this.animationObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting && !this.animatedElements.has(entry.target)) {
-                    this.triggerAnimation(entry.target);
-                    this.animatedElements.add(entry.target);
-                }
-            });
-        }, options);
+        this.handleSwipe = handleSwipe;
 
-        // Observe all animatable elements
-        document.querySelectorAll('.about-item, .service-card, .event-type, .section-title').forEach(el => {
-            this.animationObserver.observe(el);
+        // Handle resize
+        window.addEventListener('resize', () => {
+            ScrollTrigger.refresh();
+        });
+
+        // Service card interactions
+        const serviceCards = document.querySelectorAll('.service-card');
+        serviceCards.forEach(card => {
+            card.addEventListener('click', () => {
+                // Add click animation
+                gsap.to(card, {
+                    scale: 0.95,
+                    duration: 0.1,
+                    yoyo: true,
+                    repeat: 1,
+                    ease: "power2.inOut"
+                });
+
+                // Future: Open media player
+                console.log('Card clicked:', card.dataset.media);
+            });
         });
     }
 
-    triggerAnimation(element) {
-        element.style.opacity = '0';
-        element.style.transform = 'translateY(30px)';
+    // Utility method for smooth section transitions
+    animateSection(section, direction = 'in') {
+        const elements = section.querySelectorAll('.section-title, .section-subtitle, .service-card');
         
-        setTimeout(() => {
-            element.style.transition = 'all 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
-            element.style.opacity = '1';
-            element.style.transform = 'translateY(0)';
-        }, 100);
+        if (direction === 'in') {
+            gsap.from(elements, {
+                opacity: 0,
+                y: 50,
+                duration: 0.8,
+                stagger: 0.1,
+                ease: "power2.out"
+            });
+        } else {
+            gsap.to(elements, {
+                opacity: 0,
+                y: -30,
+                duration: 0.5,
+                stagger: 0.05,
+                ease: "power2.in"
+            });
+        }
     }
 }
 
-// Performance optimizations
-class PerformanceOptimizer {
+// Advanced scroll-driven animations
+class ScrollEffects {
     constructor() {
-        this.setupImageLazyLoading();
-        this.setupPrefetching();
+        this.setupAdvancedEffects();
     }
 
-    setupImageLazyLoading() {
-        const imageObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const img = entry.target;
-                    if (img.dataset.src) {
-                        img.src = img.dataset.src;
-                        img.removeAttribute('data-src');
-                        imageObserver.unobserve(img);
-                    }
-                }
-            });
-        });
-
-        document.querySelectorAll('img[data-src]').forEach(img => {
-            imageObserver.observe(img);
-        });
-    }
-
-    setupPrefetching() {
-        // Prefetch important images on interaction
-        document.addEventListener('mouseover', (e) => {
-            if (e.target.matches('.service-card img')) {
-                const mediaKey = e.target.closest('.service-card').dataset.media;
-                this.prefetchMediaSet(mediaKey);
+    setupAdvancedEffects() {
+        // Background gradient shift based on scroll
+        ScrollTrigger.create({
+            trigger: ".main-container",
+            start: "top top",
+            end: "bottom bottom",
+            onUpdate: (self) => {
+                const progress = self.progress;
+                document.body.style.filter = `hue-rotate(${progress * 60}deg)`;
             }
         });
-    }
 
-    prefetchMediaSet(mediaKey) {
-        const app = window.octaviaApp;
-        if (app.mediaData[mediaKey]) {
-            app.mediaData[mediaKey].forEach(url => {
-                const link = document.createElement('link');
-                link.rel = 'prefetch';
-                link.href = url;
-                document.head.appendChild(link);
+        // Mouse parallax effect
+        document.addEventListener('mousemove', (e) => {
+            const mouseX = e.clientX / window.innerWidth;
+            const mouseY = e.clientY / window.innerHeight;
+
+            gsap.to('.floating-elements', {
+                x: (mouseX - 0.5) * 20,
+                y: (mouseY - 0.5) * 20,
+                duration: 0.5,
+                ease: "power2.out"
             });
-        }
+        });
+
+        // Scroll speed indicator
+        let lastScrollY = window.scrollY;
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+            const scrollSpeed = Math.abs(currentScrollY - lastScrollY);
+            
+            // Adjust blur based on scroll speed
+            const blurAmount = Math.min(scrollSpeed * 0.1, 2);
+            gsap.to('.hero-video', {
+                filter: `blur(${blurAmount}px)`,
+                duration: 0.1
+            });
+
+            lastScrollY = currentScrollY;
+        });
     }
 }
 
-// Initialize application when DOM is loaded
+// Initialize the application
 document.addEventListener('DOMContentLoaded', () => {
-    window.octaviaApp = new OctaviaExperience();
-    new ScrollAnimations();
-    new PerformanceOptimizer();
-    
-    // Add CSS animation for pulse effect
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-    `;
-    document.head.appendChild(style);
+    // Wait for GSAP to load
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+        window.octaviaApp = new OctaviaApp();
+        new ScrollEffects();
+        
+        // Add loading complete class
+        document.body.classList.add('loaded');
+        
+        console.log('🚢 Octavia Travel App Initialized');
+        console.log('✨ GSAP ScrollTrigger Ready');
+    } else {
+        console.error('GSAP or ScrollTrigger not loaded');
+    }
 });
 
-// Service Worker registration for PWA capabilities
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js').catch(() => {
-            console.log('Service Worker registration failed');
-        });
-    });
-}
+// Add CSS for pulse animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes pulse {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.1); box-shadow: 0 0 20px rgba(255, 229, 92, 0.6); }
+        100% { transform: scale(1); }
+    }
+    
+    .loaded .hero-logo {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .loaded .hero-tagline {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .loaded .hero-description {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .loaded .scroll-indicator {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+    }
+`;
+document.head.appendChild(style);
